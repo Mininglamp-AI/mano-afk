@@ -505,6 +505,7 @@ def cmd_install_model(args):
         snapshot_download(
             repo_id=model_name,
             local_dir=model_path,
+            allow_patterns="w8a16/*",
             token=os.environ.get("HF_TOKEN"),
         )
     except ImportError:
@@ -514,6 +515,11 @@ def cmd_install_model(args):
     except Exception as e:
         print(f"Download failed: {e}")
         return 1
+
+    # Point to the w8a16 subdirectory
+    w8a16_path = os.path.join(model_path, "w8a16")
+    if os.path.isdir(w8a16_path):
+        model_path = w8a16_path
 
     print(f"Model downloaded to: {model_path}")
     set_config("default-model-path", model_path)
