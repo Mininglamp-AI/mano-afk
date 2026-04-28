@@ -324,7 +324,7 @@
     "title": "图片渲染",
     "project": "md2wechat",
     "url": "https://mano.mininglamp.com/md2wechat/golden.html",
-    "task": "全选编辑区内容并删除。输入\"![示例图片](https://via.placeholder.com/200x100)\"。",
+    "task": "全选编辑区内容并删除。输入\"![示例图片](https://placehold.co/200x100.png)\"。",
     "expected_result": "预览区显示图片或图片占位区域，宽度适当。",
     "bug_triggered": "none",
     "max_steps": 10
