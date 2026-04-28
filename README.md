@@ -137,10 +137,37 @@ mano-afk check
 
 ### Skill Installation
 
+**Claude Code:**
+
+Add the skill to your project's `.claude/settings.json`:
+
+```json
+{
+  "permissions": {
+    "allow": ["Bash(mano-afk:*)"]
+  },
+  "customInstructions": "Read and follow skill/claude/SKILL.md for mano-afk tasks."
+}
+```
+
+Or simply tell Claude Code:
+```
+Read skill/claude/SKILL.md and follow it to build me a todo app.
+```
+
+**OpenClaw:**
+
+Install from [ClawHub](https://clawhub.ai):
+```
+/install mano-afk
+```
+
 | Platform | SKILL.md | Key Differences |
 |----------|----------|-----------------|
-| OpenClaw | `SKILL.md` (root) | `sessions_spawn` with `runtime="subagent"` |
-| Claude Code | `claude/SKILL.md` | Agent tool, `run_in_background`, Auto mode |
+| Claude Code | `skill/claude/SKILL.md` | Agent tool, `run_in_background`, Auto mode |
+| OpenClaw | `skill/openclaw/SKILL.md` | `sessions_spawn` with `runtime="subagent"` |
+
+Both share the same `skill/references/` directory.
 
 ### Usage
 
@@ -163,22 +190,35 @@ mano-afk includes a [CUA Benchmark](benchmark/) — 100 test cases across 5 web 
 
 ```
 mano-afk/
-├── SKILL.md                    # OpenClaw skill
-├── claude/SKILL.md             # Claude Code skill
-├── references/
-│   ├── build-pipeline.md       # Build sub-agent instructions
-│   ├── prd-template.md         # PRD generation template
-│   ├── rules.md                # Learned build rules (evolves)
-│   ├── preferences.md          # User style preferences (evolves)
-│   ├── project-structure.md    # Directory layout template
-│   ├── readme-template.md      # README generation template
-│   └── report-template.md      # Build report template
+├── skill/
+│   ├── claude/SKILL.md             # Claude Code skill
+│   ├── openclaw/SKILL.md           # OpenClaw skill
+│   └── references/
+│       ├── build-pipeline.md       # Build sub-agent instructions
+│       ├── prd-template.md         # PRD generation template
+│       ├── rules.md                # Learned build rules (evolves)
+│       ├── preferences.md          # User style preferences (evolves)
+│       ├── project-structure.md    # Directory layout template
+│       ├── readme-template.md      # README generation template
+│       └── report-template.md      # Build report template
+├── scripts/
+│   ├── main.py                     # CLI entry point
+│   ├── agents/                     # Cloud (Claude CUA) + Local (Mano-P) agents
+│   ├── judges/                     # Local + Cloud judge
+│   ├── ui/                         # CustomTkinter overlay
+│   ├── vlm_engine.py               # MLX VLM inference engine
+│   ├── task.py                     # Task orchestration
+│   ├── executor.py                 # Action execution (pynput + mss)
+│   ├── config.py                   # Constants + user config
+│   └── utils.py                    # Prompts, hotkey mapping
 ├── benchmark/
-│   ├── README.md               # Benchmark methodology
-│   ├── tasks.json              # 100 test cases
-│   ├── run_benchmark.py        # Benchmark runner
-│   └── results/                # Test results per model
-└── scripts/                    # Core execution code
+│   ├── README.md                   # Benchmark methodology
+│   ├── tasks.json                  # 100 test cases
+│   ├── run_benchmark.py            # Benchmark runner
+│   └── results/                    # Test results per model
+├── Formula/mano-afk.rb             # Homebrew formula
+├── requirements.txt
+└── pyproject.toml
 ```
 
 ## Philosophy
