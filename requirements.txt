@@ -1,0 +1,5 @@
+anthropic
+pynput
+mss
+customtkinter
+Pillow

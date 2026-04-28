@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "TS-01",
+    "title": "创建新旅行并确认显示",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/buggy.html",
+    "task": "在首页\"创建新旅行\"表单中，旅行名称输入\"东京五日游\"，同行人输入\"A,B,C\"。点击\"创建旅行\"按钮。",
+    "expected_result": "首页旅行列表出现\"东京五日游\"卡片，显示 3 位同行人。已有的\"杭州三日游\"卡片仍在。",
+    "bug_triggered": "B1",
+    "max_steps": 8
+  },
+  {
+    "id": "TS-02",
+    "title": "进入已有旅行记录消费",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击导航栏\"记一笔\"。分类选择\"购物\"，金额输入 200，付款人选择\"小明\"，参与人保持全选，分摊方式保持\"均摊\"。点击\"保存\"。",
+    "expected_result": "账单明细列表新增一条分类\"购物\"、金额 ¥200.00 的消费记录，排在列表最上方。",
+    "bug_triggered": "none",
+    "max_steps": 20
+  },
+  {
+    "id": "TS-03",
+    "title": "已有账单排序验证",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/buggy.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。查看账单明细列表的排列顺序。",
+    "expected_result": "账单明细按时间倒序排列，最新的\"龙井茶馆下午茶 ¥158.00\"在最上面，\"高铁票 ¥480.00\"在最下面。",
+    "bug_triggered": "B2",
+    "max_steps": 25
+  },
+  {
+    "id": "TS-04",
+    "title": "已有数据结算方案",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/buggy.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击导航栏\"分账结算\"。查看结算方案。",
+    "expected_result": "结算方案显示各成员之间的转账方向和金额。小明实付 ¥638，小红实付 ¥860，小李实付 ¥320，小王实付 ¥300。差额方向正确。",
+    "bug_triggered": "B3",
+    "max_steps": 20
+  },
+  {
+    "id": "TS-05",
+    "title": "结算金额可见性",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/buggy.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击导航栏\"分账结算\"。查看结算方案中的转账金额。",
+    "expected_result": "结算方案中所有转账金额数字清晰可见，文字颜色与背景色有明显对比，可以读出具体金额。",
+    "bug_triggered": "B4",
+    "max_steps": 20
+  },
+  {
+    "id": "TS-06",
+    "title": "删除已有消费记录",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/buggy.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。在账单明细列表中，点击第一条记录的\"删除\"按钮。",
+    "expected_result": "该消费记录被删除，列表剩余 4 条记录，页面无报错。",
+    "bug_triggered": "B5",
+    "max_steps": 20
+  },
+  {
+    "id": "TS-07",
+    "title": "自定义分摊消费",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击\"记一笔\"，分类选择\"购物\"，金额输入 400，付款人选择\"小明\"，参与人保持全选。点击分摊方式\"自定义金额\"。小明输入 100，小红输入 100，小李输入 100，小王输入 100。点击\"保存\"。",
+    "expected_result": "账单明细新增一条 ¥400.00 购物记录，分摊方式为自定义金额。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "TS-08",
+    "title": "比例分摊消费",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击\"记一笔\"，分类选择\"娱乐\"，金额输入 500，付款人选择\"小红\"，参与人保持全选。点击分摊方式\"按比例\"。小明比例设为 2，小红设为 1，小李设为 1，小王设为 1。点击\"保存\"。",
+    "expected_result": "账单明细新增一条 ¥500.00 娱乐记录，分摊方式为按比例。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "TS-09",
+    "title": "分类筛选",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。在账单明细顶部点击\"餐饮\"分类标签。",
+    "expected_result": "列表只显示分类为\"餐饮\"的 2 条消费记录（¥320 和 ¥158），交通、住宿、门票记录不显示。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "TS-10",
+    "title": "编辑已有消费记录",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。在账单明细中点击第一条记录的\"编辑\"按钮。清空金额输入框，输入 999。点击\"保存修改\"。",
+    "expected_result": "该条记录金额更新为 ¥999.00。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "TS-11",
+    "title": "创建第二个旅行验证数据隔离",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "在首页\"创建新旅行\"表单中，旅行名称输入\"上海行\"，同行人输入\"C,D\"。点击\"创建旅行\"。点击\"上海行\"旅行卡片进入旅行。",
+    "expected_result": "\"上海行\"账单明细为空，显示\"暂无消费记录\"，不包含\"杭州三日游\"的数据。",
+    "bug_triggered": "none",
+    "max_steps": 30
+  },
+  {
+    "id": "TS-12",
+    "title": "已有多笔消费结算",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击导航栏\"分账结算\"。查看最终结算转账方案。",
+    "expected_result": "结算方案显示需要转账的人和金额，总体转账后每人净收支为零。方向正确，金额正确。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "TS-13",
+    "title": "分类统计条形图",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击导航栏\"分账结算\"。查看分类统计区域。",
+    "expected_result": "分类统计区显示条形图，交通、住宿、餐饮、门票各有对应条形，标明分类名、金额和占比。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "TS-14",
+    "title": "同行人个人汇总",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击导航栏\"分账结算\"。查看每位同行人的个人汇总。",
+    "expected_result": "每位同行人显示实付、应付和差额。小明实付 ¥638、小红实付 ¥860、小李实付 ¥320、小王实付 ¥300。差额方向正确：正数为应收，负数为应付。",
+    "bug_triggered": "none",
+    "max_steps": 20
+  },
+  {
+    "id": "TS-15",
+    "title": "创建空旅行结算",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "在首页\"创建新旅行\"表单中，旅行名称输入\"空旅行\"，同行人输入\"X,Y\"。点击\"创建旅行\"。点击\"空旅行\"旅行卡片进入旅行。点击导航栏\"分账结算\"。",
+    "expected_result": "结算页面正常显示，显示\"所有人已结清，无需转账\"或全零状态，无报错。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "TS-16",
+    "title": "创建带日期的旅行",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "在首页\"创建新旅行\"表单中，旅行名称输入\"日本七日游\"。点击开始日期输入框选择 2026-05-01，点击结束日期输入框选择 2026-05-07。同行人输入\"小A,小B\"。点击\"创建旅行\"。",
+    "expected_result": "首页旅行卡片显示\"日本七日游\"，日期 2026-05-01 至 2026-05-07，显示 2 位同行人。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "TS-17",
+    "title": "已有账单总计金额",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。查看账单明细底部的合计金额。",
+    "expected_result": "合计金额为 ¥2118.00（480+860+320+300+158）。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "TS-18",
+    "title": "新增消费后排序验证",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击\"记一笔\"，分类选择\"其他\"，金额输入 50，点击\"保存\"。查看账单明细列表顺序。",
+    "expected_result": "最新记录 ¥50.00 在最上面，原有的 5 条记录依次在下方，按时间倒序。",
+    "bug_triggered": "none",
+    "max_steps": 30
+  },
+  {
+    "id": "TS-19",
+    "title": "备注字段",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击\"记一笔\"，分类选择\"其他\"，金额输入 50。在备注输入框输入\"打车去机场\"。点击\"保存\"。",
+    "expected_result": "账单明细中新增记录显示备注\"打车去机场\"。",
+    "bug_triggered": "none",
+    "max_steps": 20
+  },
+  {
+    "id": "TS-20",
+    "title": "已有数据多人结算方案",
+    "project": "tripsplit",
+    "url": "https://mano.mininglamp.com/tripsplit/golden.html",
+    "task": "点击首页\"杭州三日游\"旅行卡片进入旅行。点击导航栏\"分账结算\"。查看结算转账方案的具体金额。",
+    "expected_result": "结算方案中转账方向正确，金额正确。应付方向已考虑门票 ¥300 只有 3 人参与（小王未参与）的情况。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "MW-01",
+    "title": "链接脚注编号递增",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/buggy.html",
+    "task": "全选编辑区内容并删除。输入\"访问 [谷歌](https://google.com) 和 [微软](https://microsoft.com)。\"",
+    "expected_result": "预览区谷歌旁边脚注为 [1]，微软旁边脚注为 [2]，编号递增，不应全部显示 [0]。",
+    "bug_triggered": "B1",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-02",
+    "title": "三个链接脚注",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入\"请访问 [Google](https://google.com)、[GitHub](https://github.com) 和 [百度](https://baidu.com)。\"",
+    "expected_result": "三个链接脚注分别为 [1]、[2]、[3]，文末参考链接按顺序列出三个 URL。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-03",
+    "title": "表格隔行变色",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/buggy.html",
+    "task": "全选编辑区内容并删除。输入以下 Markdown 表格： | 姓名 | 年龄 | 城市 | |------|------|------| | 张三 | 25 | 北京 | | 李四 | 30 | 上海 | | 王五 | 28 | 深圳 |",
+    "expected_result": "预览区表格奇数行和偶数行有不同的背景色（隔行变色），便于区分行。",
+    "bug_triggered": "B2",
+    "max_steps": 12
+  },
+  {
+    "id": "MW-04",
+    "title": "切换主题颜色更新",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/buggy.html",
+    "task": "在主题下拉框中选择\"优雅紫\"。",
+    "expected_result": "预览区标题颜色变为紫色系（#8b5cf6），整体配色更新为紫色主题。",
+    "bug_triggered": "B3",
+    "max_steps": 8
+  },
+  {
+    "id": "MW-05",
+    "title": "复制按钮功能",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/buggy.html",
+    "task": "点击工具栏的\"复制\"按钮。",
+    "expected_result": "页面显示\"复制成功\"提示，无 JS 报错。",
+    "bug_triggered": "B4",
+    "max_steps": 8
+  },
+  {
+    "id": "MW-06",
+    "title": "代码块语法高亮",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入以下内容（含代码块标记）： ```python def hello(): print(\"Hello World\") ```",
+    "expected_result": "预览区代码块有语法高亮，关键字 def 和 print 的颜色与普通文本不同。",
+    "bug_triggered": "none",
+    "max_steps": 12
+  },
+  {
+    "id": "MW-07",
+    "title": "字号调整",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "在字号下拉框中选择\"17px\"。",
+    "expected_result": "预览区正文字体变大，字号从默认 15px 变为 17px。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "MW-08",
+    "title": "行高调整",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "在行高下拉框中选择\"2.0\"。",
+    "expected_result": "预览区段落行间距明显增大，行高从默认 1.75 变为 2.0。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "MW-09",
+    "title": "引用块渲染",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入以下内容： > 这是一段引用文字 > 引用的第二行",
+    "expected_result": "预览区显示引用块，有左侧边框或背景色区分，文字正确显示。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-10",
+    "title": "有序列表和无序列表",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入以下内容： - 无序项1 - 无序项2 1. 有序项1 2. 有序项2",
+    "expected_result": "预览区正确显示无序列表（圆点标记）和有序列表（数字编号），格式正确。",
+    "bug_triggered": "none",
+    "max_steps": 12
+  },
+  {
+    "id": "MW-11",
+    "title": "主色拾色器自定义",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "点击主色拾色器，选择红色（#FF0000）。",
+    "expected_result": "预览区标题颜色变为红色。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-12",
+    "title": "多链接脚注与参考区",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入以下内容： 链接 [A](https://a.com) 和 [B](https://b.com) 和 [C](https://c.com) 和 [D](https://d.com) 和 [E](https://e.com)。",
+    "expected_result": "预览区底部参考链接区列出 5 个链接，编号 [1] 到 [5]，URL 正确。",
+    "bug_triggered": "none",
+    "max_steps": 12
+  },
+  {
+    "id": "MW-13",
+    "title": "图片渲染",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入\"![示例图片](https://via.placeholder.com/200x100)\"。",
+    "expected_result": "预览区显示图片或图片占位区域，宽度适当。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-14",
+    "title": "切换回默认主题",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "在主题下拉框中选择\"技术绿\"。再在主题下拉框中选择\"默认蓝\"。",
+    "expected_result": "切换到\"技术绿\"后标题为绿色系，切回\"默认蓝\"后标题变回蓝色（#1a73e8）。两次切换颜色都有变化。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-15",
+    "title": "分割线渲染",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入以下内容： 段落一 --- 段落二",
+    "expected_result": "预览区在\"段落一\"和\"段落二\"之间显示水平分割线。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-16",
+    "title": "表格多行隔行色",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入以下 6 行数据的 Markdown 表格： | 编号 | 姓名 | 城市 | |------|------|------| | 1 | 张三 | 北京 | | 2 | 李四 | 上海 | | 3 | 王五 | 深圳 | | 4 | 赵六 | 杭州 | | 5 | 孙七 | 广州 | | 6 | 周八 | 成都 |",
+    "expected_result": "6 行数据表格有明显的隔行变色，奇偶行背景色不同。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "MW-17",
+    "title": "加粗和斜体",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入\"**加粗文字** 和 *斜体文字* 以及 ***加粗斜体***\"。",
+    "expected_result": "预览区正确渲染加粗、斜体和加粗斜体，三种样式各不相同。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-18",
+    "title": "行内代码",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入\"使用 `console.log()` 打印输出\"。",
+    "expected_result": "`console.log()` 显示为行内代码样式，有背景色或边框与普通文本区分。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-19",
+    "title": "H1-H3 标题层级",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "全选编辑区内容并删除。输入以下内容： # 一级标题 ## 二级标题 ### 三级标题",
+    "expected_result": "三级标题字号递减，一级最大，三级最小，颜色为当前主题主色。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "MW-20",
+    "title": "复制后再编辑",
+    "project": "md2wechat",
+    "url": "https://mano.mininglamp.com/md2wechat/golden.html",
+    "task": "点击工具栏\"复制\"按钮。然后在编辑区末尾追加输入\"新增的一段文字\"。",
+    "expected_result": "复制操作不影响后续编辑，预览区实时显示新增的\"新增的一段文字\"内容。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "OMS-01",
+    "title": "初始订单排序",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/buggy.html",
+    "task": "页面已加载，滚动浏览订单列表，读取前两行订单的订单日期。",
+    "expected_result": "订单列表按创建时间倒序排列，最新订单（今天日期）在第一行，较早订单在下方。",
+    "bug_triggered": "B1",
+    "max_steps": 8
+  },
+  {
+    "id": "OMS-02",
+    "title": "仪表盘待处理数",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/buggy.html",
+    "task": "读取仪表盘\"待处理订单\"统计卡片的数字。滚动订单列表，数一下状态标签为\"待确认\"的订单数量。",
+    "expected_result": "\"待处理订单\"卡片数字为 2，与订单列表中\"待确认\"状态的订单数量一致。",
+    "bug_triggered": "B2",
+    "max_steps": 10
+  },
+  {
+    "id": "OMS-03",
+    "title": "推进订单状态",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/buggy.html",
+    "task": "在订单列表中找到第一个状态为\"待确认\"的订单，点击该行操作列的\"→ 已确认\"按钮。",
+    "expected_result": "该订单状态从\"待确认\"变为\"已确认\"，标签颜色变为蓝色。不应跳过中间状态。",
+    "bug_triggered": "B3",
+    "max_steps": 10
+  },
+  {
+    "id": "OMS-04",
+    "title": "状态标签颜色区分",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/buggy.html",
+    "task": "滚动浏览订单列表，观察不同状态标签的颜色。",
+    "expected_result": "各状态标签颜色各不相同：待确认灰色、已确认蓝色、生产中橙色、已发货紫色、已完成绿色。",
+    "bug_triggered": "B4",
+    "max_steps": 8
+  },
+  {
+    "id": "OMS-05",
+    "title": "导出功能",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/buggy.html",
+    "task": "点击工具栏的\"导出\"按钮。",
+    "expected_result": "导出操作正常完成（弹出下载或提示成功），页面无 JS 报错。",
+    "bug_triggered": "B5",
+    "max_steps": 8
+  },
+  {
+    "id": "OMS-06",
+    "title": "新建订单",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "点击\"新建订单\"按钮。在弹出的订单表单中，客户下拉框选择\"北京星辰科技有限公司\"。 在商品明细中，商品下拉框选择\"智能手表 Pro\"，数量输入 2。 点击\"保存\"按钮。",
+    "expected_result": "订单列表出现新订单，客户为\"北京星辰科技有限公司\"，总额 ¥2598.00，状态为\"待确认\"。",
+    "bug_triggered": "none",
+    "max_steps": 20
+  },
+  {
+    "id": "OMS-07",
+    "title": "按状态筛选",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "在状态筛选下拉框中选择\"已完成\"。",
+    "expected_result": "列表只显示状态为\"已完成\"的订单，其他状态订单不显示。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "OMS-08",
+    "title": "按客户筛选",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "在客户筛选下拉框中选择\"北京星辰科技有限公司\"。",
+    "expected_result": "列表只显示客户为\"北京星辰科技有限公司\"的订单。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "OMS-09",
+    "title": "编辑订单",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "在订单列表第一行点击\"编辑\"按钮。在弹出的表单中，在备注输入框输入\"加急处理\"。 点击\"保存\"按钮。",
+    "expected_result": "订单备注更新为\"加急处理\"。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "OMS-10",
+    "title": "删除订单",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "在订单列表最后一行点击\"删除\"按钮。在弹出的确认对话框中点击\"确定\"。",
+    "expected_result": "该订单从列表中消失，总订单数减少 1。",
+    "bug_triggered": "none",
+    "max_steps": 12
+  },
+  {
+    "id": "OMS-11",
+    "title": "状态连续推进",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "在订单列表中找到第一个\"待确认\"状态的订单，点击\"→ 已确认\"按钮。 再点击该订单的\"→ 生产中\"按钮。",
+    "expected_result": "该订单状态依次变为\"已确认\"再变为\"生产中\"。每次只前进一步，未跳过中间状态。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "OMS-12",
+    "title": "仪表盘今日订单",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "读取仪表盘\"今日订单数\"卡片数字。然后点击\"新建订单\"，客户选择\"上海云端网络技术公司\"， 商品选择\"无线蓝牙耳机\"，数量 1，点击\"保存\"。再次读取\"今日订单数\"卡片数字。",
+    "expected_result": "新建订单后，\"今日订单数\"数字比之前多 1。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "OMS-13",
+    "title": "重置筛选",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "在状态筛选下拉框中选择\"已确认\"。然后点击\"重置\"按钮。",
+    "expected_result": "重置后列表显示所有状态的订单，筛选条件清空，下拉框恢复为\"全部状态\"。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "OMS-14",
+    "title": "客户配置 CRUD",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "点击顶部\"客户配置\"Tab。点击\"新增客户\"按钮。 在客户名称输入框输入\"测试公司\"，联系人输入框输入\"张经理\"，联系电话输入框输入\"13800138000\"。 点击\"保存\"。",
+    "expected_result": "客户列表中出现\"测试公司\"，联系人\"张经理\"，电话\"13800138000\"。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "OMS-15",
+    "title": "商品配置 CRUD",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "点击顶部\"商品配置\"Tab。点击\"新增商品\"按钮。 在商品名称输入框输入\"测试商品\"，单价输入框输入 999，单位输入框输入\"个\"。 点击\"保存\"。",
+    "expected_result": "商品列表中出现\"测试商品\"，单价 ¥999.00，单位\"个\"。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "OMS-16",
+    "title": "排序确认（新建后）",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "点击\"新建订单\"，客户选择\"深圳智联电子科技\"，商品选择\"便携充电宝 20000mAh\"，数量 1， 点击\"保存\"。",
+    "expected_result": "新建的订单排在列表第一行，时间最新。",
+    "bug_triggered": "none",
+    "max_steps": 20
+  },
+  {
+    "id": "OMS-17",
+    "title": "本月销售额统计",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "读取仪表盘\"本月销售额\"卡片数字。滚动浏览订单列表，累加本月所有订单的总金额。",
+    "expected_result": "\"本月销售额\"数字等于本月所有订单金额总和。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "OMS-18",
+    "title": "订单商品明细",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "点击\"新建订单\"。客户选择\"杭州数字创新工作室\"。 第一行商品选择\"智能手表 Pro\"，数量 1。 点击\"+ 添加商品\"，第二行商品选择\"无线蓝牙耳机\"，数量 3。 点击\"保存\"。",
+    "expected_result": "新订单出现在列表中，总额为 ¥2496.00（1299 + 399×3）。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "OMS-19",
+    "title": "状态标签颜色一致性",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "滚动浏览订单列表，找到\"待确认\"和\"已完成\"状态的订单行。",
+    "expected_result": "\"待确认\"标签为灰色，\"已完成\"标签为绿色，两者颜色明显不同。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "OMS-20",
+    "title": "总订单数统计",
+    "project": "oms",
+    "url": "https://mano.mininglamp.com/order/golden.html",
+    "task": "读取仪表盘\"总订单数\"卡片数字。滚动浏览订单列表，数所有行数。",
+    "expected_result": "\"总订单数\"数字等于订单列表的总行数（初始为 8）。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "FL-01",
+    "title": "初始数据加载",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "浏览页面各区域：统计卡片、账单列表、预算进度。",
+    "expected_result": "页面显示预设的收支记录（10 条），本月支出 ¥2919.00，本月收入 ¥8500.00，月预算 ¥5000。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-02",
+    "title": "添加支出记录",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/buggy.html",
+    "task": "在\"记一笔\"表单中，类型选择\"支出\"，金额输入 88，分类下拉框选择\"🍽️ 餐饮\"， 备注输入\"火锅\"。点击\"记一笔\"按钮。",
+    "expected_result": "账单列表出现一条支出记录：餐饮 -¥88.00，备注\"火锅\"。",
+    "bug_triggered": "B1",
+    "max_steps": 15
+  },
+  {
+    "id": "FL-03",
+    "title": "添加收入记录",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/buggy.html",
+    "task": "在\"记一笔\"表单中，类型切换为\"收入\"，金额输入 3000，分类下拉框选择\"💵 其他\"， 备注输入\"兼职\"。点击\"记一笔\"按钮。",
+    "expected_result": "账单列表出现一条收入记录 +¥3000.00，备注\"兼职\"。分类为收入类（非支出类如餐饮、交通）。",
+    "bug_triggered": "B3",
+    "max_steps": 15
+  },
+  {
+    "id": "FL-04",
+    "title": "删除记录",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/buggy.html",
+    "task": "在账单列表中，将鼠标悬停在第一条记录上，点击出现的删除图标按钮。",
+    "expected_result": "该记录从列表中消失，总支出或总收入相应更新，无报错。",
+    "bug_triggered": "B2",
+    "max_steps": 10
+  },
+  {
+    "id": "FL-05",
+    "title": "收入金额颜色",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/buggy.html",
+    "task": "浏览账单列表中的收入记录和支出记录的金额显示。",
+    "expected_result": "收入金额（+¥）显示为绿色，支出金额（-¥）显示为粉红/红色，颜色有明显区分。",
+    "bug_triggered": "B4",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-06",
+    "title": "预算进度条颜色",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/buggy.html",
+    "task": "查看\"预算进度\"卡片区域的进度条。",
+    "expected_result": "进度条颜色根据预算使用比例变化：正常为蓝色，接近预算为黄色，超预算为红色。不应始终是同一个颜色。 当前 fixture 数据支出 ¥2919 / 预算 ¥5000 = 58%，进度条应为蓝色。",
+    "bug_triggered": "B5",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-07",
+    "title": "存储持久化验证（stateless）",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "在\"记一笔\"表单中，类型\"支出\"，金额输入 100，分类选择\"📦 其他\"，备注输入\"测试存储\"。 点击\"记一笔\"按钮。",
+    "expected_result": "记录添加成功后出现在列表中。（stateless 模式下刷新页面会恢复初始 fixture 数据。）",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "FL-08",
+    "title": "月度总支出计算",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "读取\"本月支出\"卡片上的数字。浏览账单列表中所有支出记录的金额。",
+    "expected_result": "\"本月支出\"数字等于列表中所有支出记录金额之和。初始 fixture 总支出 ¥2919.00。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-09",
+    "title": "月度总收入计算",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "读取\"本月收入\"卡片上的数字。浏览账单列表中所有收入记录的金额。",
+    "expected_result": "\"本月收入\"数字等于列表中所有收入记录金额之和。初始 fixture 总收入 ¥8500.00。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-10",
+    "title": "结余计算",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "读取\"本月结余\"卡片上的数字，以及\"本月收入\"和\"本月支出\"的数字。",
+    "expected_result": "结余 = 收入 - 支出。初始 fixture 结余 ¥5581.00（8500 - 2919）。数值正确。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-11",
+    "title": "切换记录类型（收入/支出）分类联动",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "在\"记一笔\"表单中，先选择类型\"支出\"，展开分类下拉框查看选项。 然后切换类型为\"收入\"，再次展开分类下拉框查看选项。",
+    "expected_result": "\"支出\"类型下分类包含餐饮、交通、购物等。\"收入\"类型下分类包含工资、奖金、投资等。两者选项不同。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "FL-12",
+    "title": "添加后立即删除",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "在\"记一笔\"表单中，类型\"支出\"，金额输入 50，分类选择\"🍽️ 餐饮\"。点击\"记一笔\"按钮。 在账单列表中，将鼠标悬停在刚添加的那条 ¥50 餐饮记录上，点击删除图标按钮。",
+    "expected_result": "记录先出现在列表中，删除后从列表消失，操作流畅无报错。",
+    "bug_triggered": "none",
+    "max_steps": 20
+  },
+  {
+    "id": "FL-13",
+    "title": "预算设置",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "在\"预算进度\"卡片区域点击\"设置\"按钮。在弹出的预算设置对话框中，清空金额输入框， 输入 8000。点击\"保存\"。",
+    "expected_result": "预算更新为 ¥8000，进度条百分比相应调整（支出 ¥2919 / 预算 ¥8000 ≈ 36%）。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "FL-14",
+    "title": "趋势分析",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "滚动到页面底部\"月度收支趋势\"区域。",
+    "expected_result": "趋势区域显示月度收支数据，收入和支出分别标识，有金额显示。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-15",
+    "title": "多条删除",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "在账单列表中，将鼠标悬停在第一条记录上，点击删除图标。 再将鼠标悬停在当前第一条记录上，点击删除图标。",
+    "expected_result": "两条记录依次被删除，列表每次删除后正确更新，总收支数字相应变化。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "FL-16",
+    "title": "分类统计",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "查看\"分类支出占比\"卡片区域，浏览各分类的金额和百分比。",
+    "expected_result": "分类统计准确，各分类金额等于该分类下所有支出记录的总和，百分比之和约 100%。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-17",
+    "title": "收入类型选择分类",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "在\"记一笔\"表单中，类型切换为\"收入\"。展开分类下拉框。",
+    "expected_result": "分类选项包含\"💰 工资\"\"🎁 奖金\"\"📈 投资\"\"💵 其他\"等收入分类，不是餐饮、交通等支出分类。",
+    "bug_triggered": "none",
+    "max_steps": 12
+  },
+  {
+    "id": "FL-18",
+    "title": "超预算提醒",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "在\"记一笔\"表单中，类型\"支出\"，金额输入 3000，分类选择\"🛒 购物\"。点击\"记一笔\"按钮。",
+    "expected_result": "总支出超过 ¥5000 预算后，有超预算视觉提醒（红色进度条、超支标签或警告文字）。",
+    "bug_triggered": "none",
+    "max_steps": 20
+  },
+  {
+    "id": "FL-19",
+    "title": "日期显示",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "浏览账单列表中各日期分组的标题。",
+    "expected_result": "记录按日期分组，日期标题格式正确（如\"4月25日（周五）\"），显示近几天的日期。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "FL-20",
+    "title": "正数结余颜色",
+    "project": "family-ledger",
+    "url": "https://mano.mininglamp.com/demo/family-ledger/golden.html",
+    "task": "查看\"本月结余\"卡片上的金额数字。",
+    "expected_result": "正数结余显示为绿色，表示盈余。初始 fixture 结余 +¥5581.00 应为绿色。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-01",
+    "title": "页面正常加载",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "浏览页面，滚动查看所有 Widget 区域。",
+    "expected_result": "5 个 Widget 都可见且有内容：Weather（天气）、Todo List（待办）、Habits（习惯）、Expenses（支出）、Pomodoro（计时）。无空白或报错。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-02",
+    "title": "添加待办事项",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Todo List Widget 的输入框中输入\"完成报告\"，按回车键提交。",
+    "expected_result": "待办列表出现\"完成报告\"条目，checkbox 为未勾选状态。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "LD-03",
+    "title": "完成待办事项",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/buggy.html",
+    "task": "在 Todo List Widget 中，点击第一个未完成待办项的 checkbox。",
+    "expected_result": "checkbox 变为勾选状态，文字出现删除线效果，表示已完成。",
+    "bug_triggered": "B2",
+    "max_steps": 10
+  },
+  {
+    "id": "LD-04",
+    "title": "支出总额验证",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/buggy.html",
+    "task": "在 Expenses Widget 中，读取总额数字。浏览支出列表中各条记录的金额。",
+    "expected_result": "总额等于列表中所有支出金额之和。初始 fixture 总额应为 $503.50（35.50+6+128+89+200+45）。",
+    "bug_triggered": "B1",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-05",
+    "title": "添加支出",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Expenses Widget 中，分类下拉框选择\"Food\"，金额输入框输入 25，点击\"Add\"按钮。",
+    "expected_result": "支出列表出现 Food $25.00 记录，总额在原基础上增加 $25。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "LD-06",
+    "title": "专注计时器初始显示",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/buggy.html",
+    "task": "查看 Pomodoro Widget 中间的时间显示。",
+    "expected_result": "计时器显示 25:00，格式为\"分钟:秒\"，分钟在前秒在后。下方标签显示 Focus。不应显示 00:25。",
+    "bug_triggered": "B3",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-07",
+    "title": "习惯打卡",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/buggy.html",
+    "task": "在 Habits Widget 中，找到第一个习惯\"Exercise\"行，点击今天对应的日期格子。",
+    "expected_result": "格子变为已打卡状态（变为实心/绿色），有明显视觉变化。",
+    "bug_triggered": "B4",
+    "max_steps": 10
+  },
+  {
+    "id": "LD-08",
+    "title": "天气当前温度",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "查看 Weather Widget 显示的当前城市和温度。",
+    "expected_result": "Weather Widget 显示城市名、当前温度为具体数字（非 NaN）和天气图标。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-09",
+    "title": "天气预报温度",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/buggy.html",
+    "task": "查看 Weather Widget 下方的未来几天天气预报区域。",
+    "expected_result": "预报区每天显示具体的高低温度数字（如 25°/18°），不应显示 NaN° 或 undefined。",
+    "bug_triggered": "B5",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-10",
+    "title": "主题切换（Light/Dark）",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "点击页面右上角的主题切换开关（Light/Dark 切换按钮）。",
+    "expected_result": "切换到 Dark 模式后，背景变为深色，文字变为浅色，各 Widget 样式适配暗色主题。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-11",
+    "title": "删除待办",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Todo List Widget 中，将鼠标悬停在第一个待办项上，点击出现的删除按钮。",
+    "expected_result": "该待办项从列表中消失。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "LD-12",
+    "title": "添加习惯",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Habits Widget 的输入框中输入\"跑步\"，点击\"Add\"按钮。",
+    "expected_result": "习惯列表出现\"跑步\"行，显示当前周（周一到周日）的格子。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "LD-13",
+    "title": "支出饼图",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "查看 Expenses Widget 的甜甜圈图表区域。",
+    "expected_result": "甜甜圈图显示各支出分类的占比，每个分类颜色不同，有图例标明分类名和金额。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-14",
+    "title": "计时器启动",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Pomodoro Widget 中，点击\"Start\"按钮。等待约 5 秒。",
+    "expected_result": "计时器从 25:00 开始倒数（如变为 24:57、24:56...），格式始终为\"分:秒\"，分钟在前。下方标签显示 Focus。",
+    "bug_triggered": "none",
+    "max_steps": 12
+  },
+  {
+    "id": "LD-15",
+    "title": "计时器暂停和重置",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Pomodoro Widget 中，点击\"Start\"按钮启动计时器。等待约 3 秒后点击\"Pause\"按钮。 再点击\"Reset\"按钮。",
+    "expected_result": "暂停后时间停止变化。重置后显示 25:00。",
+    "bug_triggered": "none",
+    "max_steps": 15
+  },
+  {
+    "id": "LD-16",
+    "title": "待办 checkbox 切换验证",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Todo List Widget 中，找到已完成的待办项\"Read chapter 5\"（有删除线），点击其 checkbox。",
+    "expected_result": "待办项从已完成变为未完成，checkbox 取消勾选，删除线消失。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "LD-17",
+    "title": "删除支出",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Expenses Widget 的支出列表中，将鼠标悬停在第一条记录上，点击删除按钮。",
+    "expected_result": "记录被删除，总额相应减少。",
+    "bug_triggered": "none",
+    "max_steps": 10
+  },
+  {
+    "id": "LD-18",
+    "title": "习惯最大数量",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Habits Widget 的输入框中依次添加习惯，直到出现限制提示。初始已有 3 个习惯，需再添加 2 个（如\"习惯1\"\"习惯2\"），每次输入名称后点击\"Add\"按钮。",
+    "expected_result": "达到 5 个习惯上限后，显示\"Maximum 5 habits reached\"提示，无法再添加。",
+    "bug_triggered": "none",
+    "max_steps": 25
+  },
+  {
+    "id": "LD-19",
+    "title": "习惯打卡多日验证",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "在 Habits Widget 中，查看第一个习惯\"Exercise\"的当前周网格。",
+    "expected_result": "当前周网格中，本周一和周二的格子为已打卡状态（实心/高亮），其余格子为空/默认样式，两者有明显视觉区分。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  },
+  {
+    "id": "LD-20",
+    "title": "支出总额精确到分",
+    "project": "life-dashboard",
+    "url": "https://mano.mininglamp.com/demo/life-dashboard/golden.html",
+    "task": "读取 Expenses Widget 的总额数字。",
+    "expected_result": "总额显示精确到小数点后两位，如 $503.50，不是 $503 或 $503.5。",
+    "bug_triggered": "none",
+    "max_steps": 8
+  }
+]

@@ -1,0 +1,45 @@
+name: Release & Update Homebrew Tap
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+
+      - name: Get tag version
+        id: tag
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Compute SHA256 of source tarball
+        id: sha
+        run: |
+          URL="https://github.com/${{ github.repository }}/archive/refs/tags/${GITHUB_REF_NAME}.tar.gz"
+          SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
+          echo "sha256=$SHA" >> $GITHUB_OUTPUT
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Update Homebrew Tap
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.TAP_TOKEN }}
+          repository: Mininglamp-AI/homebrew-tap
+          event-type: update-formula
+          client-payload: |
+            {
+              "formula": "mano-afk",
+              "version": "${{ steps.tag.outputs.version }}",
+              "url": "${{ steps.sha.outputs.url }}",
+              "sha256": "${{ steps.sha.outputs.sha256 }}"
+            }

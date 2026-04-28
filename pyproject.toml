@@ -1,0 +1,19 @@
+[project]
+name = "mano-afk"
+version = "0.2.0"
+description = "Mano AFK — Desktop Automation CLI (Cloud + Local VLM)"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic",
+    "pynput",
+    "mss",
+    "customtkinter",
+    "Pillow",
+]
+
+[project.optional-dependencies]
+local = [
+    "mlx-vlm",
+    "torch",
+    "torchvision",
+]
