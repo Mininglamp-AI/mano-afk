@@ -12,9 +12,35 @@ A benchmark suite for evaluating Computer Use Agent (CUA) models on real-world w
 | **Total Time** | End-to-end time per task | `elapsed_sec` |
 | **Token Usage** | Prompt + generation tokens per task | `token_usage` |
 
+## Benchmark Results
+
+**Test Environment:** MacBook Pro 14", Apple M5, 16GB
+
+**Model:** Mano-P 4B (W8A16 / W8A8 8-bit quantized)
+
+### Mano-P 4B W8A16
+
+| Metric | Value |
+|--------|-------|
+| **Accuracy** | **58/100 = 58.0%** |
+| Avg steps | 6.1 |
+| Avg step time | 10.1s |
+| Avg tokens/step | prompt: 3,222 · gen: 167 · total: 3,389 |
+
+### Mano-P 4B W8A8 (with [Cider](https://github.com/Mininglamp-AI/cider) acceleration)
+
+| Metric | Value |
+|--------|-------|
+| **Accuracy** | **54/100 = 54.0%** |
+| Avg steps | 6.93 |
+| Avg step time | 10.4s |
+| Avg tokens/step | prompt: 2,935 · gen: 168 · total: 3,104 |
+
+> **Note on W8A8:** W8A8 accelerates prefill via INT8 TensorOps but requires storing both original and INT8 weights simultaneously, roughly doubling weight memory. On memory-constrained devices, this additional pressure can cause unified memory swapping that negates the prefill speedup — resulting in slower overall inference than W8A16. Ensure sufficient free memory (recommended: 4GB+ headroom beyond model size) before enabling W8A8.
+
 ## Test Design
 
-100 test cases across 5 web applications:
+100 test cases across 5 web applications, all built autonomously via mano-afk:
 
 | Project | Description | Framework | Tests |
 |---------|-------------|-----------|-------|
@@ -24,12 +50,12 @@ A benchmark suite for evaluating Computer Use Agent (CUA) models on real-world w
 | **Family Ledger** | Household bookkeeping | Vue 3 + Element Plus | 20 (15 golden + 5 buggy) |
 | **Life Dashboard** | Personal dashboard widgets | React 18 + Vite | 20 (15 golden + 5 buggy) |
 
-\* md-wechat has 4 bugs; B5 is pending.
-
 ### Golden vs Buggy
 
+Each application has two versions. The **golden** version is the correct, bug-free build. The **buggy** version is derived from golden with specific bugs injected (UI defects, logic errors, JS exceptions) — designed to test whether the model can detect that something is wrong.
+
 - **Golden tests** (76 tasks): Run on the bug-free version. Expected verdict: **PASS**.
-- **Buggy tests** (24 tasks): Run on the version with injected bugs. Expected verdict: **FAIL** (the bug causes visible incorrect behavior).
+- **Buggy tests** (24 tasks): Run on the bug-injected version. Expected verdict: **FAIL**.
 
 ```
 Accuracy = tasks where judge verdict matches expected / total judged
@@ -43,57 +69,19 @@ All projects reset to initial state on page load:
 
 No manual cleanup needed between tests.
 
-## Test Flow
-
-```
-1. Open target URL (golden or buggy, auto-selected by bug_triggered field)
-2. Execute mano-afk with task + expected_result
-3. Agent operates via screenshots + actions
-4. Agent outputs result.json (step_timings, token_usage, status)
-5. Judge compares final state against expected_result → PASS/FAIL
-6. Close browser tab
-7. Repeat next task (stateless: page refresh resets state)
-```
-
-## Files
-
-```
-benchmark/
-├── README.md              ← this file
-├── tasks.json             ← 100 test cases with URLs, tasks, expected results, max_steps
-├── run_benchmark.py       ← benchmark runner (auto golden/buggy selection)
-└── results/               ← benchmark result JSONs (per-model, per-run)
-```
-
 ## Usage
 
-### Run all 100 tests (local model)
-
 ```bash
+# Local model (Mano-P)
 uv run benchmark/run_benchmark.py --mode local
-```
 
-### Run all 100 tests (cloud model)
-
-```bash
+# Cloud model (Claude CUA)
 uv run benchmark/run_benchmark.py --mode cloud
-```
-
-### Run a specific project
-
-```bash
-uv run benchmark/run_benchmark.py --mode local --project TS
-```
-
-### Run a range
-
-```bash
-uv run benchmark/run_benchmark.py --mode local --start TS-01 --end TS-05
 ```
 
 ## Output Format
 
-Each run produces `benchmark/results/bench-{mode}-{timestamp}.json`:
+Each run produces a JSON file:
 
 ```json
 {

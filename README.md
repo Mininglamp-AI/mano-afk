@@ -46,9 +46,9 @@ mano-afk run "Click Add Category, fill in 'Food', pick green, click Save" \
 
 **Why this matters:** An API test can pass while the button that calls it is broken. A unit test can pass while the layout renders nothing. E2E is the only test that catches what your users will actually experience.
 
-### 3. Mano-P: On-Device Vision for GUI Testing
+### 3. [Mano-P](https://github.com/Mininglamp-AI/Mano-P): On-Device Vision for GUI Testing
 
-Mano-P is a lightweight vision-language model that runs **entirely on your Mac**. No cloud API calls, no token costs, no data leaving your machine.
+[Mano-P](https://github.com/Mininglamp-AI/Mano-P) is a lightweight vision-language model that runs **entirely on your Mac**. No cloud API calls, no token costs, no data leaving your machine.
 
 | | Mano-P (Local) | Cloud CUA |
 |---|---|---|
@@ -184,7 +184,14 @@ The skill handles everything else.
 
 ## Benchmark
 
-mano-afk includes a [CUA Benchmark](benchmark/) — 100 test cases across 5 web applications for evaluating GUI automation agents. See [`benchmark/README.md`](benchmark/README.md) for methodology and results.
+mano-afk includes a [CUA Benchmark](benchmark/) — 100 test cases across 5 web applications for evaluating GUI automation agents. See [`benchmark/README.md`](benchmark/README.md) for full methodology.
+
+**Mano-P 4B on MacBook Pro M5, 16GB:**
+
+| Configuration | Accuracy | Avg Steps | Avg Step Time | Avg Tokens/Step |
+|---------------|----------|-----------|---------------|-----------------|
+| W8A16 | **58.0%** | 6.1 | 10.1s | 3,389 |
+| W8A8 ([Cider](https://github.com/Mininglamp-AI/cider)) | **54.0%** | 6.93 | 10.4s | 3,104 |
 
 ## Project Structure
 
