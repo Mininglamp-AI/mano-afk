@@ -97,17 +97,8 @@ def get_last_screenshots(session_dir: str, count: int = 1) -> list:
 def run_judge(model_path: str, task: str, expected_result: str,
               images: list, verbose: bool = False) -> dict:
     """Run the local model as a judge and return verdict."""
-    import mlx.core as mx
     import mlx_vlm as pm
-    import mlx_vlm.generate as _gen_mod
-    import vlm_engine as _cq
-    from vlm_engine import custom_generate
-
-    # Patch generation_stream → mx.gpu for thread safety
-    # Must patch both the mlx_vlm.generate module AND vlm_engine module
-    # because `from X import Y` creates a local binding
-    _gen_mod.generation_stream = mx.gpu
-    _cq.generation_stream = mx.gpu
+    from vlm_service import custom_generate
 
     resolved_path = os.path.expanduser(model_path)
     print(f"Loading model from {resolved_path} ...", file=sys.stderr)

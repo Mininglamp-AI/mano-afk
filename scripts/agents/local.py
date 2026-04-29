@@ -87,7 +87,7 @@ finish() # The task is completed.
         if self._model_loaded:
             return
         import mlx_vlm as pm
-        from vlm_engine import custom_generate
+        from vlm_service import custom_generate
         from config import get_config
 
         logger.info(f"Loading local model from {self._model_path} ...")
@@ -273,7 +273,7 @@ finish() # The task is completed.
     # ─── Inference ────────────────────────────────────────────
 
     def _infer(self, user_text: str, images: list[str]) -> str:
-        """Call local model via vlm_engine."""
+        """Call local model via cider vlm_service."""
         messages = [
             {"role": "system", "content": self.SYSTEM_PROMPT},
             {"role": "user", "content": user_text},
@@ -285,7 +285,7 @@ finish() # The task is completed.
             img_bytes = base64.b64decode(b64)
             pil_images.append(Image.open(io.BytesIO(img_bytes)))
 
-        # ── vlm_engine path ──
+        # ── vlm_service path ──
         prompt = self.processor.tokenizer.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
         )
