@@ -1,45 +1,147 @@
-name: Release & Update Homebrew Tap
+name: Build and Release
 
 on:
   push:
-    tags: ["v*"]
-
-permissions:
-  contents: write
+    tags:
+      - 'v*'
 
 jobs:
-  release:
+  build-macos-arm64:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install -r requirements.txt pyinstaller
+      - run: pyinstaller mano-afk.spec
+      - run: tar -czf mano-afk-macos-arm64.tar.gz -C dist/mano-afk .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mano-afk-macos-arm64
+          path: mano-afk-macos-arm64.tar.gz
+
+  build-macos-x86_64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install -r requirements.txt pyinstaller
+      - run: arch -x86_64 pyinstaller mano-afk.spec
+      - run: tar -czf mano-afk-macos-x86_64.tar.gz -C dist/mano-afk .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mano-afk-macos-x86_64
+          path: mano-afk-macos-x86_64.tar.gz
+
+  build-linux-x86_64:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - uses: actions/setup-python@v5
         with:
-          generate_release_notes: true
+          python-version: '3.13'
+      - run: pip install -r requirements.txt pyinstaller
+      - run: pyinstaller mano-afk.spec
+      - run: tar -czf mano-afk-linux-x86_64.tar.gz -C dist/mano-afk .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mano-afk-linux-x86_64
+          path: mano-afk-linux-x86_64.tar.gz
 
-      - name: Get tag version
-        id: tag
-        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install -r requirements.txt pyinstaller
+      - run: pyinstaller mano-afk.spec
+      - run: Compress-Archive -Path dist/mano-afk/* -DestinationPath mano-afk-windows.zip
+        shell: pwsh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mano-afk-windows
+          path: mano-afk-windows.zip
 
-      - name: Compute SHA256 of source tarball
+  release:
+    needs: [build-macos-arm64, build-macos-x86_64, build-linux-x86_64, build-windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+
+  update-homebrew:
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source tarball and compute SHA256
         id: sha
         run: |
-          URL="https://github.com/${{ github.repository }}/archive/refs/tags/${GITHUB_REF_NAME}.tar.gz"
-          SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
-          echo "sha256=$SHA" >> $GITHUB_OUTPUT
-          echo "url=$URL" >> $GITHUB_OUTPUT
+          VERSION="${GITHUB_REF_NAME}"
+          curl -sL "https://github.com/${GITHUB_REPOSITORY}/archive/refs/tags/${VERSION}.tar.gz" -o source.tar.gz
+          echo "source=$(sha256sum source.tar.gz | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
-      - name: Update Homebrew Tap
-        uses: peter-evans/repository-dispatch@v3
+      - name: Checkout homebrew-tap
+        uses: actions/checkout@v4
         with:
+          repository: ${{ github.repository_owner }}/homebrew-tap
           token: ${{ secrets.TAP_TOKEN }}
-          repository: Mininglamp-AI/homebrew-tap
-          event-type: update-formula
-          client-payload: |
-            {
-              "formula": "mano-afk",
-              "version": "${{ steps.tag.outputs.version }}",
-              "url": "${{ steps.sha.outputs.url }}",
-              "sha256": "${{ steps.sha.outputs.sha256 }}"
-            }
+
+      - name: Update formula
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          VERSION_NUM="${VERSION#v}"
+          mkdir -p Formula
+          cat > Formula/mano-afk.rb << 'FORMULA_EOF'
+          class ManoAfk < Formula
+            desc "Mano AFK — Desktop Automation CLI (Cloud + Local VLM)"
+            homepage "https://github.com/OWNER_PLACEHOLDER/mano-afk"
+            url "https://github.com/OWNER_PLACEHOLDER/mano-afk/archive/refs/tags/VERSION_PLACEHOLDER.tar.gz"
+            sha256 "SHA256_PLACEHOLDER"
+            version "VERSION_NUM_PLACEHOLDER"
+
+            depends_on "python@3.13"
+            depends_on "python-tk@3.13"
+
+            def install
+              venv = libexec/"venv"
+              system "python3.13", "-m", "venv", venv
+              system venv/"bin/pip", "install", "-r", "requirements.txt"
+              (venv/"src/scripts").install Dir["scripts/*"]
+              (bin/"mano-afk").write <<~SH
+                #!/bin/bash
+                export PYTHONPATH="#{venv}/src/scripts"
+                exec "#{venv}/bin/python3" "#{venv}/src/scripts/main.py" "$@"
+              SH
+            end
+
+            test do
+              assert_match "usage", shell_output("#{bin}/mano-afk --help")
+            end
+          end
+          FORMULA_EOF
+          OWNER="${GITHUB_REPOSITORY_OWNER}"
+          sed -i "s|OWNER_PLACEHOLDER|${OWNER}|g" Formula/mano-afk.rb
+          sed -i "s|VERSION_PLACEHOLDER|${VERSION}|g" Formula/mano-afk.rb
+          sed -i "s|VERSION_NUM_PLACEHOLDER|${VERSION_NUM}|g" Formula/mano-afk.rb
+          sed -i "s|SHA256_PLACEHOLDER|${{ steps.sha.outputs.source }}|g" Formula/mano-afk.rb
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/mano-afk.rb
+          git diff --cached --quiet && echo "Formula already up to date" && exit 0
+          git commit -m "Update mano-afk to ${GITHUB_REF_NAME}"
+          git push
