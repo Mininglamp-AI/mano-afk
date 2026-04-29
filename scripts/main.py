@@ -485,7 +485,7 @@ def cmd_install_sdk(args):
 
 def cmd_install_model(args):
     """Download Mano-P model weights from HuggingFace."""
-    model_name = args.name or "uieurfie/mano_model"
+    model_name = args.name or "Mininglamp-2718/Mano-P"
     dest_dir = os.path.expanduser("~/.mano/models")
     os.makedirs(dest_dir, exist_ok=True)
 
