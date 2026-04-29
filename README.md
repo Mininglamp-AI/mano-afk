@@ -139,35 +139,28 @@ mano-afk check
 
 **Claude Code:**
 
-Add the skill to your project's `.claude/settings.json`:
+Install the `skill/` directory into your Claude Code skills:
 
-```json
-{
-  "permissions": {
-    "allow": ["Bash(mano-afk:*)"]
-  },
-  "customInstructions": "Read and follow skill/claude/SKILL.md for mano-afk tasks."
-}
+```bash
+claude skill install /path/to/mano-afk/skill
 ```
 
-Or simply tell Claude Code:
+Or simply point Claude Code at the skill file:
 ```
-Read skill/claude/SKILL.md and follow it to build me a todo app.
+Read skill/SKILL.md and follow it to build me a todo app.
 ```
 
 **OpenClaw:**
 
-Install from [ClawHub](https://clawhub.ai):
+Install from [ClawHub](https://clawhub.ai/hanningwang/mano-afk):
 ```
 /install mano-afk
 ```
 
-| Platform | SKILL.md | Key Differences |
-|----------|----------|-----------------|
-| Claude Code | `skill/claude/SKILL.md` | Agent tool, `run_in_background`, Auto mode |
-| OpenClaw | `skill/openclaw/SKILL.md` | `sessions_spawn` with `runtime="subagent"` |
-
-Both share the same `skill/references/` directory.
+Or tell the agent directly:
+```
+Install the mano-afk skill and use it to build me a todo app.
+```
 
 ### Usage
 
@@ -198,8 +191,7 @@ mano-afk includes a [CUA Benchmark](benchmark/) — 100 test cases across 5 web 
 ```
 mano-afk/
 ├── skill/
-│   ├── claude/SKILL.md             # Claude Code skill
-│   ├── openclaw/SKILL.md           # OpenClaw skill
+│   ├── SKILL.md                     # Claude Code skill
 │   └── references/
 │       ├── build-pipeline.md       # Build sub-agent instructions
 │       ├── prd-template.md         # PRD generation template
