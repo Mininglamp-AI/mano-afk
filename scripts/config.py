@@ -1,4 +1,4 @@
-"""All constants and configuration for mano-hybrid-cua."""
+"""All constants and configuration for mano-afk."""
 
 import json
 import os

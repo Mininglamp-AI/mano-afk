@@ -485,6 +485,12 @@ def cmd_install_sdk(args):
 
 def cmd_install_model(args):
     """Download Mano-P model weights from HuggingFace."""
+    # Skip if a valid model path is already configured
+    existing = get_config("default-model-path")
+    if existing and os.path.isdir(os.path.expanduser(existing)):
+        print(f"Model already configured: {existing}")
+        return 0
+
     model_name = args.name or "Mininglamp-2718/Mano-P"
     dest_dir = os.path.expanduser("~/.mano/models")
     os.makedirs(dest_dir, exist_ok=True)
