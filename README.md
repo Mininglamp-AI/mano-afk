@@ -181,10 +181,10 @@ mano-afk includes a [CUA Benchmark](benchmark/) — 100 test cases across 5 web 
 
 **Mano-P 4B on MacBook Pro M5, 16GB:**
 
-| Configuration | Accuracy | Avg Steps | Avg Step Time | Avg Tokens/Step |
+| Configuration | Accuracy | Avg Steps | Prefill Speed | Avg Tokens/Step |
 |---------------|----------|-----------|---------------|-----------------|
-| W8A16 | **58.0%** | 6.1 | 10.1s | 3,389 |
-| W8A8 ([Cider](https://github.com/Mininglamp-AI/cider)) | **54.0%** | 6.93 | 10.4s | 3,104 |
+| W8A16 | **58.0%** | 6.1 | ~1,253 tok/s | 3,389 |
+| W8A8 ([Cider](https://github.com/Mininglamp-AI/cider)) | **54.0%** | 6.93 | ~1,453 tok/s | 3,104 |
 
 ## Project Structure
 
