@@ -24,7 +24,7 @@ A benchmark suite for evaluating Computer Use Agent (CUA) models on real-world w
 |--------|-------|
 | **Accuracy** | **58/100 = 58.0%** |
 | Avg steps | 6.1 |
-| Avg step time | 10.1s |
+| Prefill speed | ~1,253 tok/s |
 | Avg tokens/step | prompt: 3,222 · gen: 167 · total: 3,389 |
 
 ### Mano-P 4B W8A8 (with [Cider](https://github.com/Mininglamp-AI/cider) acceleration)
@@ -33,10 +33,10 @@ A benchmark suite for evaluating Computer Use Agent (CUA) models on real-world w
 |--------|-------|
 | **Accuracy** | **54/100 = 54.0%** |
 | Avg steps | 6.93 |
-| Avg step time | 10.4s |
+| Prefill speed | ~1,453 tok/s |
 | Avg tokens/step | prompt: 2,935 · gen: 168 · total: 3,104 |
 
-> **Note on W8A8:** W8A8 accelerates prefill via INT8 TensorOps but requires storing both original and INT8 weights simultaneously, roughly doubling weight memory. On memory-constrained devices, this additional pressure can cause unified memory swapping that negates the prefill speedup — resulting in slower overall inference than W8A16. Ensure sufficient free memory (recommended: 4GB+ headroom beyond model size) before enabling W8A8.
+> **Note on W8A8:** W8A8 accelerates prefill via INT8 TensorOps but requires extra memory to store both original and quantized weights simultaneously. On memory-constrained devices, this additional pressure can cause unified memory swapping that negates the prefill speedup — resulting in slower overall inference than W8A16. Ensure sufficient free memory (recommended: 4GB+ headroom beyond model size) before enabling W8A8.
 
 ## Test Design
 
