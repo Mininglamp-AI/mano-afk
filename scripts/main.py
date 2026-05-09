@@ -451,31 +451,42 @@ def cmd_stop(args):
 # ─── install-sdk subcommand ──────────────────────────────────
 
 def cmd_install_sdk(args):
-    """Install local inference SDK (mlx-vlm + cider) into the mano-afk environment."""
+    """Install local inference SDK (mlx-vlm + cider + torch) into the mano-afk environment."""
     import subprocess
 
     pip_cmd = [sys.executable, "-m", "pip"]
 
-    packages = [
-        ("mlx_vlm", "mlx-vlm"),
-        ("cider", "git+https://github.com/Mininglamp-AI/cider.git"),
-    ]
-
-    for module_name, install_spec in packages:
-        # Check if already installed
-        try:
-            __import__(module_name)
-            print(f"  {install_spec.split('/')[-1].replace('.git','') if '/' in install_spec else install_spec}: already installed")
-            continue
-        except ImportError:
-            pass
-
-        print(f"  Installing {install_spec}...")
-        result = subprocess.run(pip_cmd + ["install", install_spec])
+    # 1. mlx-vlm
+    try:
+        import mlx_vlm
+        print(f"  mlx-vlm: already installed")
+    except ImportError:
+        print(f"  Installing mlx-vlm...")
+        result = subprocess.run(pip_cmd + ["install", "mlx-vlm"])
         if result.returncode != 0:
-            print(f"  Installation failed.")
+            print(f"  mlx-vlm installation failed.")
             return 1
-        print(f"  Installed.")
+        print(f"  mlx-vlm installed.")
+
+    # 2. torch (required by vlm_service)
+    try:
+        import torch
+        print(f"  torch: already installed")
+    except ImportError:
+        print(f"  Installing torch...")
+        result = subprocess.run(pip_cmd + ["install", "torch"])
+        if result.returncode != 0:
+            print(f"  torch installation failed.")
+            return 1
+        print(f"  torch installed.")
+
+    # 3. cider — always install from GitHub (must compile C++ extension)
+    print(f"  Installing cider from GitHub (compiling C++ extension)...")
+    result = subprocess.run(pip_cmd + ["install", "--force-reinstall", "--no-deps", "git+https://github.com/Mininglamp-AI/cider.git"])
+    if result.returncode != 0:
+        print(f"  cider installation failed. Ensure CMake >= 3.27 and Xcode CLI tools are installed.")
+        return 1
+    print(f"  cider installed.")
 
     print("\nSDK ready. Run 'mano-afk check' to verify.")
     return 0
@@ -542,17 +553,19 @@ def cmd_check(args):
 
     if e2e_mode == "local" or args.all:
         print("Local mode:")
-        # Check SDK — try cider first (production), fall back to mlx-vlm (dev)
+        # Check SDK — verify vlm_service can actually load (catches missing torch, broken cider)
         try:
-            import cider
-            print(f"  SDK: OK (cider {cider.__version__})")
-        except ImportError:
-            try:
-                import mlx_vlm
-                print(f"  SDK: OK (mlx-vlm {mlx_vlm.__version__}, cider not installed)")
-            except ImportError:
-                print(f"  SDK: NOT INSTALLED")
-                print(f"    → run: mano-afk install-sdk")
+            from vlm_service import custom_generate
+            from cider import is_available
+            w8a8_status = "available (M5+)" if is_available() else "not available (requires M5+)"
+            print(f"  SDK: OK")
+            print(f"  W8A8: {w8a8_status}")
+        except ImportError as e:
+            print(f"  SDK: NOT READY — {e}")
+            print(f"    → run: mano-afk install-sdk")
+        except Exception as e:
+            print(f"  SDK: present but failed to load — {e}")
+            print(f"    → run: mano-afk install-sdk")
 
         # Check model path
         model_path = get_config("default-model-path")
