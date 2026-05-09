@@ -496,6 +496,8 @@ def cmd_install_sdk(args):
 
 def cmd_install_model(args):
     """Download Mano-P model weights from HuggingFace."""
+    import subprocess
+
     # Skip if a valid model path is already configured
     existing = get_config("default-model-path")
     if existing and os.path.isdir(os.path.expanduser(existing)):
@@ -503,42 +505,34 @@ def cmd_install_model(args):
         return 0
 
     model_name = args.name or "Mininglamp-2718/Mano-P"
-    dest_dir = os.path.expanduser("~/.mano/models")
-    os.makedirs(dest_dir, exist_ok=True)
+    model_dir = os.path.expanduser("~/.mano/models/Mano-P")
 
-    local_name = model_name.replace("/", "--")
-    model_path = os.path.join(dest_dir, local_name)
+    print(f"Downloading model: {model_name}\n")
+    print("Option 1: Download from webpage")
+    print(f"  https://huggingface.co/{model_name}/tree/main/w8a16")
+    print(f"  Download all files, then:")
+    print(f"  mano-afk config --set default-model-path /path/to/w8a16\n")
+    print("Option 2: Download via CLI (requires HuggingFace token)")
+    print("  1. Create a token at https://huggingface.co/settings/tokens ")
+    print("  2. Run: hf auth login")
+    print(f"  3. Downloading now...\n")
 
-    if os.path.isdir(model_path):
-        print(f"Model already exists: {model_path}")
-        print(f"To re-download, remove it first: rm -rf {model_path}")
-        set_config("default-model-path", model_path)
-        print(f"Config updated: default-model-path = {model_path}")
-        return 0
-
-    print(f"Downloading {model_name} to {model_path} ...")
-    try:
-        from huggingface_hub import snapshot_download
-        snapshot_download(
-            repo_id=model_name,
-            local_dir=model_path,
-            allow_patterns="w8a16/*",
-            token=os.environ.get("HF_TOKEN"),
-        )
-    except ImportError:
-        print("Error: huggingface_hub not installed.")
-        print("  pip install huggingface_hub")
-        return 1
-    except Exception as e:
-        print(f"Download failed: {e}")
+    result = subprocess.run(
+        ["hf", "download", model_name, "--include", "w8a16/*", "--local-dir", model_dir]
+    )
+    if result.returncode != 0:
+        print(f"\nDownload failed. Make sure you are logged in:")
+        print(f"  hf auth login")
+        print(f"  Then run: mano-afk install-model")
+        print(f"\nOr download manually and set path:")
+        print(f"  mano-afk config --set default-model-path /path/to/model")
         return 1
 
-    # Point to the w8a16 subdirectory
-    w8a16_path = os.path.join(model_path, "w8a16")
-    if os.path.isdir(w8a16_path):
-        model_path = w8a16_path
+    model_path = os.path.join(model_dir, "w8a16")
+    if not os.path.isdir(model_path):
+        model_path = model_dir
 
-    print(f"Model downloaded to: {model_path}")
+    print(f"\nModel ready: {model_path}")
     set_config("default-model-path", model_path)
     print(f"Config updated: default-model-path = {model_path}")
     return 0
